@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Converter App</title>
+</head>
+<body>
+    <!--used example code: https://docs.microsoft.com/en-us/aspnet/web-api/overview/getting-started-with-aspnet-web-api/tutorial-your-first-web-api-->
+    <div>
+        <h2>Convert from miles to kilometers</h2>
+        <input type="text" id="distanceInMiles" size="20" /> miles
+        <input type="button" value="Convert" onclick="convert();" />
+        <p id="result" />
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var uri = 'api/convert/ConvertMiles';
+        2
+        function formatResult(data) {
+            return data + ' km';
+        }
+
+        function convert() {
+            var distanceInMiles = $('#distanceInMiles').val();
+            $.getJSON(uri + '?distanceInMiles=' + distanceInMiles)
+                .done(function (data) {
+                    if (data == "WrongInput") {
+                        $('#result').text("Error: Wrong input.")
+                    }
+                    else {
+                        $('#result').text(formatResult(data));
+                    }
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#result').text('Error: ' + err);
+                });
+        }
+    </script>
+</body>
+</html>
